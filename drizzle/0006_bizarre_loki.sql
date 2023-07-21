@@ -1,0 +1,1 @@
+ALTER TABLE `list_members` MODIFY COLUMN `left_at` timestamp NOT NULL DEFAULT 0000-00-00 00:00:00;

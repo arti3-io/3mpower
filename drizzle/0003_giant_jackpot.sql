@@ -1,0 +1,1 @@
+ALTER TABLE `accounts` ADD CONSTRAINT `accounts_twitter_id_unique` UNIQUE(`twitter_id`);

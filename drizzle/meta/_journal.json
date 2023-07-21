@@ -1,0 +1,83 @@
+{
+  "version": "5",
+  "dialect": "mysql",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "5",
+      "when": 1689251922401,
+      "tag": "0000_soft_rick_jones",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "5",
+      "when": 1689251998381,
+      "tag": "0001_careless_karnak",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1689261813227,
+      "tag": "0002_magical_mojo",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "5",
+      "when": 1689261873978,
+      "tag": "0003_giant_jackpot",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "5",
+      "when": 1689278281515,
+      "tag": "0004_salty_morgan_stark",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "5",
+      "when": 1689279177718,
+      "tag": "0005_outgoing_deathbird",
+      "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "5",
+      "when": 1689279867499,
+      "tag": "0006_bizarre_loki",
+      "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "5",
+      "when": 1689280110263,
+      "tag": "0007_eager_the_order",
+      "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "5",
+      "when": 1689343597302,
+      "tag": "0008_light_master_mold",
+      "breakpoints": true
+    },
+    {
+      "idx": 9,
+      "version": "5",
+      "when": 1689491243921,
+      "tag": "0009_far_sabra",
+      "breakpoints": true
+    },
+    {
+      "idx": 10,
+      "version": "5",
+      "when": 1689762456286,
+      "tag": "0010_little_mole_man",
+      "breakpoints": true
+    }
+  ]
+}
