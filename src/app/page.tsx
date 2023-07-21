@@ -16,6 +16,8 @@ import ShowCase from '@/components/showcase';
 import TopCommunities from '@/components/top-communities';
 import ExploreButton from '@/components/explore-button';
 
+// testing linear
+
 export default async function Home() {
   const communities: Community[] = (await get('communities')) || [];
   return (
