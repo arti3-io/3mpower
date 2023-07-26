@@ -5,15 +5,17 @@ import { db } from '@/db/';
 
 export const getMembersFromList = async (
   twitterListId: string,
-  limit: number
+  limit?: number
 ) => {
-  const members: any[] = await db
+  let query = db
     .select()
     .from(listMembers)
-    .where(eq(listMembers.twitterListId, twitterListId))
-    .limit(limit);
+    .where(eq(listMembers.twitterListId, twitterListId));
 
-  return members;
+  if (limit) {
+    query = query.limit(limit);
+  }
+  return query;
 };
 
 export const getTopLists = async (limit?: number) => {
@@ -56,15 +58,17 @@ export const getRecentLists = async (limit?: number) => {
 
 export const getRecentMembersFromList = async (
   twitterListId: string,
-  limit: number
+  limit?: number
 ) => {
-  const members: any[] = await db
+  let query = db
     .select()
     .from(listMembers)
     .where(eq(listMembers.twitterListId, twitterListId))
-    .orderBy(desc(listMembers.updatedAt))
-    .limit(limit);
-  return members;
+    .orderBy(desc(listMembers.updatedAt));
+  if (limit) {
+    query = query.limit(limit);
+  }
+  return query;
 };
 
 export const getMembersCountFromList = async (twitterListId: string) => {
@@ -123,5 +127,3 @@ export const upsertMembers = async (members: newMember[]) => {
       },
     });
 };
-
-//create function update row when duplicate key and insert new row
