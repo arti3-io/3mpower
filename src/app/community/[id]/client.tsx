@@ -27,19 +27,19 @@ export default function Client({
   const today = new Date(); // Get the current date
 
   // Assuming community.events is an array of events
-  const closestEvent = community.events.reduce((closest, event) => {
-    const eventDate = new Date(event.date.to);
-    const timeDifference = eventDate - today;
+  // const closestEvent = community.events.reduce((closest, event) => {
+  //   const eventDate = new Date(event.date.to);
+  //   const timeDifference = eventDate - today;
 
-    // Check if the event date is in the future and closer than the previously closest event
-    if (
-      timeDifference > 0 &&
-      (closest === null || timeDifference < closest.timeDifference)
-    ) {
-      return { event, timeDifference };
-    }
-    return closest;
-  }, null);
+  //   // Check if the event date is in the future and closer than the previously closest event
+  //   if (
+  //     timeDifference > 0 &&
+  //     (closest === null || timeDifference < closest.timeDifference)
+  //   ) {
+  //     return { event, timeDifference };
+  //   }
+  //   return closest;
+  // }, null);2
 
   useEffect(() => {
     const getRecentMembers = async () => {
@@ -275,11 +275,11 @@ export default function Client({
         </div>
         <div className="flex flex-col gap-3">
           <h1 className="text-xl font-bold">Upcoming event</h1>
-          {closestEvent ? (
+          {/* {closestEvent ? (
             <EventsBanner community={community} event={closestEvent} />
-          ) : (
-            <p className="text-muted-foreground">No upcoming events</p>
-          )}
+          ) : ( */}
+          <p className="text-muted-foreground">No upcoming events</p>
+          {/* )} */}
         </div>
       </div>
     </div>
