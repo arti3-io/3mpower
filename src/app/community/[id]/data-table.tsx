@@ -36,11 +36,13 @@ import * as React from 'react';
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
+  loading?: boolean;
 }
 
 export function DataTable<TData, TValue>({
   columns,
   data,
+  loading,
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
@@ -74,9 +76,11 @@ export function DataTable<TData, TValue>({
       <div className="flex items-center py-4">
         <Input
           placeholder="Filter members..."
-          value={(table.getColumn('name')?.getFilterValue() as string) ?? ''}
+          value={
+            (table.getColumn('twitterName')?.getFilterValue() as string) ?? ''
+          }
           onChange={(event) =>
-            table.getColumn('name')?.setFilterValue(event.target.value)
+            table.getColumn('twitterName')?.setFilterValue(event.target.value)
           }
           className="max-w-sm"
         />
@@ -150,7 +154,7 @@ export function DataTable<TData, TValue>({
                   colSpan={columns.length}
                   className="h-24 text-center"
                 >
-                  No results.
+                  {loading ? 'Loading...' : 'No Results'}
                 </TableCell>
               </TableRow>
             )}

@@ -57,3 +57,14 @@ export const getConditionTitleAndValue = (
       };
   }
 };
+
+// truncate text to 280 characters
+export const truncate = (length: number, text?: string) => {
+  if (!text) {
+    return '';
+  }
+  if (text.length <= length) {
+    return text;
+  }
+  return text.slice(0, length) + '...';
+};

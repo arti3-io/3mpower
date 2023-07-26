@@ -60,5 +60,10 @@ export default async function Community({
   if (!community) {
     notFound();
   }
-  return <Client community={community} data={data} />;
+  return (
+    <Client
+      community={community}
+      // data={data}
+    />
+  );
 }

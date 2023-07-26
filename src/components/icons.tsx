@@ -1,12 +1,14 @@
 import {
+  Activity,
   CalendarCheck,
   CircleDashed,
   Coins,
-  Diamond,
   Gem,
+  Globe,
   History,
   Home,
   ListChecks,
+  UserPlus2,
 } from 'lucide-react';
 import {
   AlertTriangle,
@@ -31,7 +33,6 @@ import {
   Settings,
   SunMedium,
   Trash,
-  Twitter,
   User,
   X,
   type Icon as LucideIcon,
@@ -91,6 +92,8 @@ export const Icons = {
       />
     </svg>
   ),
+  join: UserPlus2,
+  web: Globe,
   coins: Coins,
   search: Search,
   none: CircleDashed,
@@ -157,6 +160,7 @@ export const Icons = {
       />
     </svg>
   ),
+  activity: Activity,
   home: Home,
   history: History,
   conditions: ListChecks,

@@ -14,13 +14,14 @@ export async function GET(request: Request) {
     );
   }
 
-  const [floorPrice, holders] = await Promise.all([
+  const [floorPrice, holders, contractMetadata] = await Promise.all([
     alchemy.nft.getFloorPrice(contractAddress),
     alchemy.nft.getOwnersForContract(contractAddress),
+    alchemy.nft.getContractMetadata(contractAddress),
   ]);
 
   return NextResponse.json(
-    { floorPrice, holders: holders.owners.length },
+    { floorPrice, holders: holders.owners.length, contractMetadata },
     { status: 200 }
   );
 }

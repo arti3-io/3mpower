@@ -3,18 +3,11 @@
 import { ColumnDef } from '@tanstack/react-table';
 
 import { Button } from '@/components/ui/button';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
 
-import { ArrowUpDown, MoreHorizontal } from 'lucide-react';
+import { ArrowUpDown } from 'lucide-react';
 import Image from 'next/image';
 import moment from 'moment';
+import Link from 'next/link';
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
@@ -29,16 +22,17 @@ export type Member = {
 };
 
 export const columns: ColumnDef<Member>[] = [
+  // {
+  //   accessorKey: 'rank',
+  //   header: () => <div>#</div>,
+  // },
   {
-    accessorKey: 'rank',
-    header: () => <div>#</div>,
-  },
-  {
-    accessorKey: 'profile_url',
+    accessorKey: 'pfp',
     header: () => <div />,
     cell: ({ row }) => {
-      const profile_url: string = row.getValue('profile_url');
-      const name: string = row.getValue('name');
+      const profile_url: string = row.getValue('pfp');
+      console.log('profile_url: ', profile_url);
+      const name: string = row.getValue('twitterName');
       return (
         <div className="flex items-center w-8 h-8">
           <Image
@@ -53,7 +47,7 @@ export const columns: ColumnDef<Member>[] = [
     },
   },
   {
-    accessorKey: 'name',
+    accessorKey: 'twitterName',
     header: ({ column }) => {
       return (
         <Button
@@ -107,7 +101,7 @@ export const columns: ColumnDef<Member>[] = [
   //   },
   // },
   {
-    accessorKey: 'joined_at',
+    accessorKey: 'updatedAt',
     header: ({ column }) => {
       return (
         <div className="flex justify-end">
@@ -115,31 +109,34 @@ export const columns: ColumnDef<Member>[] = [
             variant="ghost"
             onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
           >
-            Joined At
+            Joined
             <ArrowUpDown className="ml-2 h-4 w-4" />
           </Button>
         </div>
       );
     },
     cell: ({ row }) => {
-      const joinedAt = moment(row.getValue('joined_at'));
-      const currentDate = moment();
-      const timeDifferenceInDays = currentDate.diff(joinedAt, 'days');
+      const joinedAt = moment(row.getValue('updatedAt'));
 
-      return (
-        <div className="text-right font-medium">
-          {timeDifferenceInDays} days ago
-        </div>
-      );
+      return <div className="text-right font-medium">{joinedAt.fromNow()}</div>;
     },
   },
   {
-    id: 'actions',
+    accessorKey: 'twitterUserId',
+    id: 'twitterUserId',
+    header: () => <div />,
     cell: ({ row }) => {
       return (
-        <Button size="xs" variant="outline">
-          Follow
-        </Button>
+        <Link
+          href={`https://x.com/intent/user?user_id=${row.getValue(
+            'twitterUserId'
+          )}`}
+          target="_blank"
+        >
+          <Button size="xs" variant="outline">
+            Follow
+          </Button>
+        </Link>
       );
     },
   },

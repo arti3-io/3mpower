@@ -9,6 +9,7 @@ import { Community } from '@/types/community';
 import { CollectionDialogue } from './collection-dialogue';
 import { ConditionCarousel } from './condition-carousel';
 import { useEffect, useState } from 'react';
+import Link from 'next/link';
 
 type CardProps = React.ComponentProps<typeof Card>;
 
@@ -61,9 +62,9 @@ export function CommunityCard({
       </CardContent>
       <CardFooter className="flex gap-2 justify-between">
         <div className="gap-2 flex">
-          <CollectionDialogue community={community}>
+          <Link href={`/community/${community.id}`}>
             <Button>View</Button>
-          </CollectionDialogue>
+          </Link>
         </div>
 
         <FilterDialogue community={community} />
