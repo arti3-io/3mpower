@@ -203,50 +203,60 @@ export default function Client({
             <div className="px-4 py-2 flex flex-col">
               <div className="flex items-center">
                 <Icons.join className="mr-1 h-3 w-3" />
-                69
+                <span className="bg-gradient-to-br text-transparent bg-clip-text from-purple-500 to-cyan-500">
+                  69
+                </span>
               </div>
-              <div className="text-xs text-gray-500">30d Joins</div>
+              <div className="text-xs text-muted-foreground">30d Joins</div>
             </div>
           </Card>
           <Card>
             <div className="px-4 py-2 flex flex-col">
               <div className="flex items-center">
                 <Icons.activity className="mr-1 h-3 w-3" />
-                69
+                <span className="bg-gradient-to-br text-transparent bg-clip-text from-purple-500 to-cyan-500">
+                  69
+                </span>
               </div>
-              <div className="text-xs text-gray-500">Active</div>
+              <div className="text-xs text-muted-foreground">Active</div>
             </div>
           </Card>
           <Card>
             <div className="px-4 py-2 flex flex-col">
               <div className="flex items-center">
                 <Icons.user className="mr-1 h-3 w-3" />
-                {membersCount ? formatNumber(membersCount) : <Skeleton />}
+                <span className="bg-gradient-to-br text-transparent bg-clip-text from-purple-500 to-cyan-500">
+                  {membersCount ? formatNumber(membersCount) : <Skeleton />}
+                </span>
               </div>
-              <div className="text-xs text-gray-500">Members</div>
+              <div className="text-xs text-muted-foreground">Members</div>
             </div>
           </Card>
           <Card className="hidden md:inline-block">
             <div className="px-4 py-2 flex flex-col">
               <div className="flex items-center">
                 <Icons.holder className="mr-1 h-3 w-3" />
-                {holders ? formatNumber(holders) : <Skeleton />}
+                <span className="bg-gradient-to-br text-transparent bg-clip-text from-purple-500 to-cyan-500">
+                  {holders ? formatNumber(holders) : <Skeleton />}
+                </span>
               </div>
-              <div className="text-xs text-gray-500">Holders</div>
+              <div className="text-xs text-muted-foreground">Holders</div>
             </div>
           </Card>
           <Card>
             <div className="px-4 py-2 flex flex-col">
               <div className="flex items-center">
                 <Icons.eth className="mr-1 h-3 w-3" />
-                {floorPrice ? (
-                  `${floorPrice?.openSea.floorPrice.toFixed(2)} ${floorPrice
-                    ?.openSea.priceCurrency}`
-                ) : (
-                  <Skeleton />
-                )}
+                <span className="bg-gradient-to-br text-transparent bg-clip-text from-purple-500 to-cyan-500">
+                  {floorPrice ? (
+                    `${floorPrice?.openSea.floorPrice.toFixed(2)} ${floorPrice
+                      ?.openSea.priceCurrency}`
+                  ) : (
+                    <Skeleton />
+                  )}
+                </span>
               </div>
-              <div className="text-xs text-gray-500">Floor</div>
+              <div className="text-xs text-muted-foreground">Floor</div>
             </div>
           </Card>
         </div>
@@ -279,7 +289,9 @@ export default function Client({
               </TabsTrigger>
             </TabsList>
             <TabsContent value="home">
-              <h1 className="text-xl font-bold">Recently Joined</h1>
+              <h1 className="text-xl font-bold bg-gradient-to-br text-transparent bg-clip-text from-purple-500 to-cyan-500">
+                Recently Joined
+              </h1>
               {loadingRecentlyJoined ? (
                 <p className="text-muted-foreground mt-4">Loading...</p>
               ) : (
@@ -304,7 +316,7 @@ export default function Client({
                         </Button>
                         <div className="flex flex-col">
                           <div>{member.twitterName}</div>
-                          <div className="text-sm text-gray-500">
+                          <div className="text-sm text-muted-foreground">
                             #{member.tokenId}
                           </div>
                         </div>
@@ -372,13 +384,17 @@ export default function Client({
       </div>
       <div className="col-span-4 flex flex-col gap-8">
         <div className="flex flex-col gap-3">
-          <h1 className="text-xl font-bold">Weekly Top Tweets</h1>
+          <h1 className="text-xl font-bold bg-gradient-to-br text-transparent bg-clip-text from-purple-500 to-cyan-500">
+            Weekly Top Tweets
+          </h1>
           {Array.from({ length: 3 }).map((_, index) => (
             <TweetCard key={index} />
           ))}
         </div>
         <div className="flex flex-col gap-3">
-          <h1 className="text-xl font-bold">Upcoming event</h1>
+          <h1 className="text-xl font-bold bg-gradient-to-br text-transparent bg-clip-text from-purple-500 to-cyan-500">
+            Upcoming event
+          </h1>
           {/* {closestEvent ? (
             <EventsBanner community={community} event={closestEvent} />
           ) : ( */}
@@ -403,8 +419,8 @@ const TweetCard = () => {
         <div className="flex flex-col">
           <div className="flex gap-2">
             <div className="font-bold">John Doe</div>
-            <div className="text-gray-500">@johndoe</div>
-            <div className="text-gray-500">· Jul 21</div>
+            <div className="text-muted-foreground">@johndoe</div>
+            <div className="text-muted-foreground">· Jul 21</div>
           </div>
           <p>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus sed
