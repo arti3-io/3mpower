@@ -195,7 +195,7 @@ export default function Client({
             )}
           </div>
         </div>
-        <div className="flex items-center gap-2 mt-4">
+        <div className="flex items-center gap-2 mt-4 text-muted-foreground">
           {truncate(280, metadata?.openSea?.description)}
         </div>
         <div className="flex gap-4 items-center mt-4">
@@ -289,9 +289,7 @@ export default function Client({
               </TabsTrigger>
             </TabsList>
             <TabsContent value="home">
-              <h1 className="text-xl font-bold bg-gradient-to-br text-transparent bg-clip-text from-purple-500 to-cyan-500">
-                Recently Joined
-              </h1>
+              <h1 className="text-xl font-bold">Recently Joined</h1>
               {loadingRecentlyJoined ? (
                 <p className="text-muted-foreground mt-4">Loading...</p>
               ) : (
@@ -371,13 +369,17 @@ export default function Client({
               })}
             </TabsContent>
             <TabsContent value="events">
-              <div className="grid grid-cols-2 gap-4">
-                {community.events.map((event, index) => (
-                  <div className="col-span-2 lg:col-span-1" key={index}>
-                    <EventsBanner event={event} community={community} />
-                  </div>
-                ))}
-              </div>
+              {community.events.length > 0 ? (
+                <div className="grid grid-cols-2 gap-4">
+                  {community.events.map((event, index) => (
+                    <div className="col-span-2 lg:col-span-1" key={index}>
+                      <EventsBanner event={event} community={community} />
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <p className="text-muted-foreground">No events</p>
+              )}
             </TabsContent>
           </Tabs>
         </div>
