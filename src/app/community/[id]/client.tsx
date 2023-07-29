@@ -180,10 +180,10 @@ export default function Client({ community }: { community: Community }) {
   }, []);
 
   return (
-    <div className="min-w-screen grid grid-cols-12 lg:px-40 px-8 py-4 gap-8">
-      <div className="col-span-8 flex flex-col">
-        <div className="flex items-center gap-4 justify-between">
-          <div className="flex gap-4 items-center">
+    <div className="grid grid-cols-12 lg:px-40 py-4 gap-8">
+      <div className="col-span-12 lg:col-span-8 flex flex-col">
+        <div className="flex flex-col md:flex-row items-center gap-4 justify-between px-4">
+          <div className="flex flex-col md:flex-row gap-4 items-center">
             <Image
               src={community.profile_url}
               alt={community.id}
@@ -222,11 +222,11 @@ export default function Client({ community }: { community: Community }) {
             )}
           </div>
         </div>
-        <div className="flex items-center gap-2 mt-4 text-muted-foreground">
+        <div className="hidden md:flex items-center gap-2 mt-4 text-muted-foreground px-4">
           {truncate(280, metadata?.openSea?.description)}
         </div>
-        <div className="flex gap-4 items-center mt-4">
-          <Card>
+        <div className="grid md:flex grid-cols-12 gap-4 items-center mt-4 px-4">
+          <Card className="col-span-6">
             <div className="px-4 py-2 flex flex-col">
               <div className="flex items-center">
                 <Icons.join className="mr-1 h-3 w-3" />
@@ -237,7 +237,7 @@ export default function Client({ community }: { community: Community }) {
               <div className="text-xs text-muted-foreground">30d Joins</div>
             </div>
           </Card>
-          <Card>
+          <Card className="col-span-6">
             <div className="px-4 py-2 flex flex-col">
               <div className="flex items-center">
                 <Icons.activity className="mr-1 h-3 w-3" />
@@ -248,7 +248,7 @@ export default function Client({ community }: { community: Community }) {
               <div className="text-xs text-muted-foreground">Active</div>
             </div>
           </Card>
-          <Card>
+          <Card className="col-span-6">
             <div className="px-4 py-2 flex flex-col">
               <div className="flex items-center">
                 <Icons.user className="mr-1 h-3 w-3" />
@@ -270,7 +270,7 @@ export default function Client({ community }: { community: Community }) {
               <div className="text-xs text-muted-foreground">Holders</div>
             </div>
           </Card>
-          <Card>
+          <Card className="col-span-6">
             <div className="px-4 py-2 flex flex-col">
               <div className="flex items-center">
                 <Icons.eth className="mr-1 h-3 w-3" />
@@ -287,13 +287,12 @@ export default function Client({ community }: { community: Community }) {
             </div>
           </Card>
         </div>
-
-        <div className="flex items-center gap-2 mt-8">
+        <div className="flex items-center gap-2 mt-8 px-4">
           <Tabs defaultValue="home" className="w-full">
             <TabsList className="w-full mb-4">
               <TabsTrigger value="home" className="gap-2 items-center w-full">
                 <Icons.home className="w-4 h-4" />
-                Home
+                <span className="hidden md:inline-block">Home</span>
               </TabsTrigger>
               <TabsTrigger
                 value="members"
@@ -301,18 +300,18 @@ export default function Client({ community }: { community: Community }) {
                 onClick={() => setShowMembers(true)}
               >
                 <Icons.community className="w-4 h-4" />
-                Members
+                <span className="hidden md:inline-block">Members</span>
               </TabsTrigger>
               <TabsTrigger
                 value="conditions"
                 className="gap-2 items-center w-full"
               >
                 <Icons.conditions className="w-4 h-4" />
-                Conditions
+                <span className="hidden md:inline-block">Conditions</span>
               </TabsTrigger>
               <TabsTrigger value="events" className="gap-2 items-center w-full">
                 <Icons.event className="w-4 h-4" />
-                Events
+                <span className="hidden md:inline-block">Events</span>
               </TabsTrigger>
             </TabsList>
             <TabsContent value="home">
@@ -323,7 +322,7 @@ export default function Client({ community }: { community: Community }) {
                 <div className="grid grid-cols-4 gap-4 mt-4">
                   {recentMembers.map((member, index) => (
                     <div
-                      className="flex col-span-2 lg:col-span-2 gap-2 items-center justify-between"
+                      className="flex col-span-4 md:col-span-2 gap-2 items-center justify-between"
                       key={index}
                     >
                       <div className="flex gap-2 items-center">
@@ -369,7 +368,7 @@ export default function Client({ community }: { community: Community }) {
                 return (
                   <motion.div
                     key={index}
-                    className="grid grid-cols-[25px_1fr] items-start last:mb-0 last:pb-0 absolute"
+                    className="grid grid-cols-[25px_1fr] items-start last:mb-0 last:pb-0"
                     initial={{ y: 100, opacity: 0 }}
                     animate={{ y: 0, opacity: 1 }}
                     transition={{ duration: 0.5 }}
@@ -411,7 +410,7 @@ export default function Client({ community }: { community: Community }) {
           </Tabs>
         </div>
       </div>
-      <div className="col-span-4 flex flex-col gap-8">
+      <div className="col-span-12 lg:col-span-4 flex flex-col gap-8  px-4">
         <div className="flex flex-col gap-3">
           <h1 className="text-xl font-bold bg-gradient-to-br text-transparent bg-clip-text from-purple-500 to-cyan-500">
             Weekly Top Tweets
