@@ -15,7 +15,15 @@ import { motion } from 'framer-motion';
 import { formatNumber, getConditionTitleAndValue, truncate } from '@/lib/utils';
 import Link from 'next/link';
 import { FloorPrice } from '@/types/alchemy';
-import { Skeleton } from '@/components/skeleton';
+import { Skeleton, SkeletonUser } from '@/components/skeleton';
+import { toast } from '@/components/ui/use-toast';
+import { ToastAction } from '@/components/ui/toast';
+import { ButtonLoading } from '@/components/button-loading';
+import { useModal } from 'connectkit';
+import { useAccount } from 'wagmi';
+import { SigninNav } from '@/components/signin-nav';
+import { useSession } from 'next-auth/react';
+import { VerifyWalletsDialogue } from '@/components/verify-wallets-dialogue';
 
 export default function Client({ community }: { community: Community }) {
   const [recentMembers, setRecentMembers] = useState<any[]>([]);
@@ -30,6 +38,16 @@ export default function Client({ community }: { community: Community }) {
   const [floorPrice, setFloorPrice] = useState<FloorPrice>();
   const [holders, setHolders] = useState<number>();
   const [metadata, setMetadata] = useState<any>();
+
+  const [show, setShow] = useState(false);
+  const [progress, setProgress] = useState<
+    'not-joined' | 'joined' | 'processing'
+  >('not-joined');
+  const { openProfile } = useModal();
+  const [bindWallet, setBindWallet] = useState('');
+  const [verifyWalletsOpen, setVerifyWalletsOpen] = useState(false);
+  const { address, isConnected } = useAccount();
+  const { data: session, status } = useSession();
 
   const today = new Date(); // Get the current date
 
@@ -179,6 +197,91 @@ export default function Client({ community }: { community: Community }) {
     getMembersCount();
   }, []);
 
+  const handleFollowList = () => {
+    const width = 600;
+    const height = 600;
+    const left = window.screen.width / 2 - width / 2;
+    const top = window.screen.height / 2 - height / 2;
+    const options = `location,status,scrollbars,resizable,width=${width},height=${height},left=${left},top=${top}`;
+
+    window.open(
+      `https://twitter.com/i/lists/${community.list}`,
+      'Popup',
+      options
+    );
+  };
+
+  const handleFollowUser = (member: {
+    twitterName: string;
+    twitterUserId: string;
+    avatar: string;
+  }) => {
+    const width = 600;
+    const height = 600;
+    const left = window.screen.width / 2 - width / 2;
+    const top = window.screen.height / 2 - height / 2;
+    const options = `location,status,scrollbars,resizable,width=${width},height=${height},left=${left},top=${top}`;
+
+    window.open(
+      `https://twitter.com/intent/user?user_id=${member.twitterUserId}`,
+      'Popup',
+      options
+    );
+  };
+
+  const handleJoin = async () => {
+    if (!isConnected && !bindWallet) {
+      openProfile();
+      return;
+    } else if (!bindWallet) {
+      setVerifyWalletsOpen(true);
+      return;
+    }
+    setLoading(true);
+    const res = await fetch('/api/lists/join', {
+      method: 'POST',
+      body: JSON.stringify({
+        twitterListId: community.list,
+      }),
+    });
+    const data = await res.json();
+    if (res.ok) {
+      await toast({
+        title: 'Success',
+        description: data.msg,
+        action: (
+          <ToastAction altText="Follow list" onClick={handleFollowList}>
+            Follow list
+          </ToastAction>
+        ),
+      });
+      setShow(false);
+    } else {
+      await toast({
+        title: 'Uh oh! Something went wrong.',
+        description: data.msg || 'Please try again later.',
+        variant: 'destructive',
+      });
+    }
+    setLoading(false);
+    setProgress('processing');
+  };
+
+  const renderSkeletonUsers = () => {
+    const skeletonCount = 6;
+    const skeletons = [];
+
+    for (let i = 0; i < skeletonCount; i++) {
+      skeletons.push(
+        <div className="col-span-2 lg:col-span-1 gap-2">
+          <SkeletonUser key={i} />
+        </div>
+      );
+    }
+
+    return skeletons;
+  };
+
   return (
     <div className="grid grid-cols-12 lg:px-40 py-4 gap-8">
       <div className="col-span-12 lg:col-span-8 flex flex-col">
@@ -219,6 +322,52 @@ export default function Client({ community }: { community: Community }) {
                   <Icons.opensea className="h-4 w-4" />
                 </Button>
               </Link>
+            )}
+            <div className="hidden md:flex gap-2 w-full">
+              {!session ? (
+                <SigninNav text="Sign in to join list" className="w-full" />
+              ) : (
+                <>
+                  {!isConnected ? (
+                    <Button onClick={handleJoin} className="w-full">
+                      Connect Wallet
+                    </Button>
+                  ) : !bindWallet ? (
+                    <Button onClick={handleJoin} className="w-full">
+                      Sign Message
+                    </Button>
+                  ) : (
+                    <RegisterProcess
+                      loading={loading}
+                      progress={progress}
+                      handleJoin={handleJoin}
+                    />
+                  )}
+                </>
+              )}
+            </div>
+          </div>
+          <div className="flex md:hidden gap-2 w-full">
+            {!session ? (
+              <SigninNav text="Sign in to join list" className="w-full" />
+            ) : (
+              <>
+                {!isConnected ? (
+                  <Button onClick={handleJoin} className="w-full">
+                    Connect Wallet
+                  </Button>
+                ) : !bindWallet ? (
+                  <Button onClick={handleJoin} className="w-full">
+                    Sign Message
+                  </Button>
+                ) : (
+                  <RegisterProcess
+                    loading={loading}
+                    progress={progress}
+                    handleJoin={handleJoin}
+                  />
+                )}
+              </>
             )}
           </div>
         </div>
@@ -349,7 +498,7 @@ export default function Client({ community }: { community: Community }) {
                         <Button
                           size="xs"
                           variant="outline"
-                          // onClick={() => handleFollowUser(member)}
+                          onClick={() => handleFollowUser(member)}
                         >
                           Follow
                         </Button>
@@ -430,6 +579,11 @@ export default function Client({ community }: { community: Community }) {
           {/* )} */}
         </div>
       </div>
+      <VerifyWalletsDialogue
+        open={verifyWalletsOpen}
+        setOpen={setVerifyWalletsOpen}
+        setBindWallet={setBindWallet}
+      />
     </div>
   );
 }
@@ -458,4 +612,48 @@ const TweetCard = () => {
       </div>
     </Card>
   );
+};
+
+const RegisterProcess = ({
+  loading,
+  progress,
+  handleJoin,
+}: {
+  loading: boolean;
+  progress: 'not-joined' | 'joined' | 'processing';
+  handleJoin: () => void;
+}) => {
+  switch (progress) {
+    case 'not-joined':
+      return (
+        <>
+          {!loading ? (
+            <Button onClick={handleJoin} className="w-full">
+              Join List
+            </Button>
+          ) : (
+            <ButtonLoading />
+          )}
+        </>
+      );
+    case 'joined':
+      return (
+        <Button
+          onClick={handleJoin}
+          className="w-full"
+          variant="outline"
+          disabled
+        >
+          Joined
+        </Button>
+      );
+    case 'processing':
+      return (
+        <Button onClick={handleJoin} className="w-full" disabled>
+          Processing
+        </Button>
+      );
+    default:
+      return null;
+  }
 };
