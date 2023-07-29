@@ -1,4 +1,4 @@
-import { eq, desc, and, sql } from 'drizzle-orm';
+import { eq, desc, and, sql, gte } from 'drizzle-orm';
 import { listMembers } from '@/db/schema';
 import { newMember } from '@/types/DB';
 import { db } from '@/db/';
@@ -16,6 +16,25 @@ export const getMembersFromList = async (
     query = query.limit(limit);
   }
   return query;
+};
+
+export const getMonthlyJoinsFromList = async (twitterListId: string) => {
+  const thirtyDaysAgo = new Date();
+  thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+
+  let query = await db
+    .select({
+      count: sql`COUNT(*)`,
+    })
+    .from(listMembers)
+    .where(
+      and(
+        eq(listMembers.twitterListId, twitterListId),
+        gte(listMembers.updatedAt, thirtyDaysAgo)
+      )
+    );
+
+  return query[0];
 };
 
 export const getTopLists = async (limit?: number) => {

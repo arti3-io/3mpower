@@ -26,6 +26,7 @@ export default function Client({
 }) {
   const [recentMembers, setRecentMembers] = useState<any[]>([]);
   const [members, setMembers] = useState<any[]>([]);
+  const [activeMembers, setActiveMembers] = useState<number>([]);
   const [showMembers, setShowMembers] = useState(false);
   const [loading, setLoading] = useState(false);
   const [loadingRecentlyJoined, setLoadingRecentlyJoined] = useState(false);
@@ -86,6 +87,23 @@ export default function Client({
     };
 
     getRecentMembers();
+  }, []);
+
+  useEffect(() => {
+    const getActiveMembers = async () => {
+      const res = await fetch(`/api/lists/stats/${community.list}/active`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
+      const active = await res.json();
+
+      await setActiveMembers(active.count);
+    };
+
+    getActiveMembers();
   }, []);
 
   useEffect(() => {
@@ -215,7 +233,7 @@ export default function Client({
               <div className="flex items-center">
                 <Icons.activity className="mr-1 h-3 w-3" />
                 <span className="bg-gradient-to-br text-transparent bg-clip-text from-purple-500 to-cyan-500">
-                  69
+                  {activeMembers ? formatNumber(activeMembers) : <Skeleton />}
                 </span>
               </div>
               <div className="text-xs text-muted-foreground">Active</div>

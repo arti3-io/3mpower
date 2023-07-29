@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import * as UserStatsModel from '@/models/UserStats';
+import * as ListMembersModel from '@/models/ListMembers';
 
 const resBuilder = (data: any, status: number = 200) => {
   if (status === 200) {
@@ -17,11 +18,12 @@ export async function GET(
   if (!listId) {
     return resBuilder('Missing list id', 400);
   }
-  const active = (await UserStatsModel.getMonthlyUserStatsByList(listId)) || [];
 
-  if (!active) {
+  const joins = await ListMembersModel.getMonthlyJoinsFromList(listId);
+
+  if (!joins) {
     return resBuilder({ message: 'No data found' }, 404);
   }
 
-  return resBuilder({ count: active.length });
+  return resBuilder(joins);
 }
