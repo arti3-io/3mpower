@@ -31,7 +31,6 @@ export const columns: ColumnDef<Member>[] = [
     header: () => <div />,
     cell: ({ row }) => {
       const profile_url: string = row.getValue('pfp');
-      console.log('profile_url: ', profile_url);
       const name: string = row.getValue('twitterName');
       return (
         <div className="flex items-center w-8 h-8">

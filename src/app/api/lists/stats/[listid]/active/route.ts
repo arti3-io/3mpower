@@ -23,5 +23,5 @@ export async function GET(
     return resBuilder({ message: 'No data found' }, 404);
   }
 
-  return resBuilder({ count: active.length });
+  return resBuilder({ count: active.length.toString() });
 }

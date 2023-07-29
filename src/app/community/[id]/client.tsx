@@ -4,29 +4,24 @@ import { EventsBanner } from '@/components/events-banner';
 import { Icons } from '@/components/icons';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader } from '@/components/ui/card';
+import { Card } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Community } from '@/types/community';
 import Image from 'next/image';
 import { DataTable } from './data-table';
 import { columns } from './columns';
 import { useEffect, useState } from 'react';
-import { MembersJoined, ActiveMembers } from './chart';
 import { motion } from 'framer-motion';
 import { formatNumber, getConditionTitleAndValue, truncate } from '@/lib/utils';
 import Link from 'next/link';
 import { FloorPrice } from '@/types/alchemy';
 import { Skeleton } from '@/components/skeleton';
 
-export default function Client({
-  community, // data,
-}: {
-  community: Community;
-  // data: any;
-}) {
+export default function Client({ community }: { community: Community }) {
   const [recentMembers, setRecentMembers] = useState<any[]>([]);
   const [members, setMembers] = useState<any[]>([]);
-  const [activeMembers, setActiveMembers] = useState<number>([]);
+  const [activeMembers, setActiveMembers] = useState<string>();
+  const [monthlyJoins, setMonthlyJoins] = useState<string>();
   const [showMembers, setShowMembers] = useState(false);
   const [loading, setLoading] = useState(false);
   const [loadingRecentlyJoined, setLoadingRecentlyJoined] = useState(false);
@@ -99,11 +94,25 @@ export default function Client({
       });
 
       const active = await res.json();
-
       await setActiveMembers(active.count);
     };
-
     getActiveMembers();
+  }, []);
+
+  useEffect(() => {
+    const getMonthlyJoins = async () => {
+      const res = await fetch(`/api/lists/stats/${community.list}/joins`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
+      const joins = await res.json();
+      await setMonthlyJoins(joins.count);
+    };
+
+    getMonthlyJoins();
   }, []);
 
   useEffect(() => {
@@ -222,7 +231,7 @@ export default function Client({
               <div className="flex items-center">
                 <Icons.join className="mr-1 h-3 w-3" />
                 <span className="bg-gradient-to-br text-transparent bg-clip-text from-purple-500 to-cyan-500">
-                  69
+                  {monthlyJoins ? formatNumber(monthlyJoins) : <Skeleton />}
                 </span>
               </div>
               <div className="text-xs text-muted-foreground">30d Joins</div>
