@@ -520,12 +520,9 @@ export default function Client({ community }: { community: Community }) {
               {community.conditions.map((condition, index) => {
                 const { title, value } = getConditionTitleAndValue(condition);
                 return (
-                  <motion.div
+                  <div
                     key={index}
                     className="grid grid-cols-[25px_1fr] items-start last:mb-0 last:pb-0"
-                    initial={{ y: 100, opacity: 0 }}
-                    animate={{ y: 0, opacity: 1 }}
-                    transition={{ duration: 0.5 }}
                   >
                     {/* Display the current condition */}
                     <span className="flex h-2 w-2 translate-y-1 rounded-full bg-sky-500" />
@@ -544,7 +541,7 @@ export default function Client({ community }: { community: Community }) {
                         <p className="text-sm text-muted-foreground">{value}</p>
                       )}
                     </div>
-                  </motion.div>
+                  </div>
                 );
               })}
             </TabsContent>
