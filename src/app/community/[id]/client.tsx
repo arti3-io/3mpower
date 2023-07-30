@@ -304,11 +304,16 @@ export default function Client({ community }: { community: Community }) {
                 </Button>
               </Link>
             )}
-            <Link href="">
-              <Button size="icon" variant="outline">
-                <Icons.twitter className="h-4 w-4" />
-              </Button>
-            </Link>
+            {metadata?.openSea?.twitterUsername && (
+              <Link
+                href={`https://x.com/${metadata.openSea.twitterUsername}`}
+                target="_blank"
+              >
+                <Button size="icon" variant="outline">
+                  <Icons.twitter className="h-4 w-4" />
+                </Button>
+              </Link>
+            )}
             {metadata?.openSea?.externalUrl && (
               <Link href={metadata.openSea.externalUrl} target="_blank">
                 <Button size="icon" variant="outline">
