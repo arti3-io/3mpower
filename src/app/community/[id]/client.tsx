@@ -24,6 +24,7 @@ import { useAccount } from 'wagmi';
 import { SigninNav } from '@/components/signin-nav';
 import { useSession } from 'next-auth/react';
 import { VerifyWalletsDialogue } from '@/components/verify-wallets-dialogue';
+import { Tweet } from 'react-tweet';
 
 export default function Client({ community }: { community: Community }) {
   const [recentMembers, setRecentMembers] = useState<any[]>([]);
@@ -566,8 +567,10 @@ export default function Client({ community }: { community: Community }) {
           <h1 className="text-xl font-bold bg-gradient-to-br text-transparent bg-clip-text from-purple-500 to-cyan-500">
             Weekly Top Tweets
           </h1>
-          {Array.from({ length: 3 }).map((_, index) => (
-            <TweetCard key={index} />
+          {mockTweets.map((tweet, index) => (
+            <div className="light custom-tweet" key={index}>
+              <Tweet id={tweet} />
+            </div>
           ))}
         </div>
         <div className="flex flex-col gap-3">
@@ -590,31 +593,11 @@ export default function Client({ community }: { community: Community }) {
   );
 }
 
-const TweetCard = () => {
-  return (
-    <Card>
-      <div className="px-4 py-2 flex gap-2">
-        <div className="flex-shrink-0">
-          <Avatar className="h-10 w-10">
-            <AvatarImage src="" alt="" />
-            <AvatarFallback>JD</AvatarFallback>
-          </Avatar>
-        </div>
-        <div className="flex flex-col">
-          <div className="flex gap-2">
-            <div className="font-bold">John Doe</div>
-            <div className="text-muted-foreground">@johndoe</div>
-            <div className="text-muted-foreground">· Jul 21</div>
-          </div>
-          <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus sed
-            feugiat sapien.
-          </p>
-        </div>
-      </div>
-    </Card>
-  );
-};
+const mockTweets = [
+  '1685381622651400192',
+  '1685112214619901952',
+  '1683648814618656773',
+];
 
 const RegisterProcess = ({
   loading,
