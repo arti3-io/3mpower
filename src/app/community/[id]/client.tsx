@@ -34,6 +34,7 @@ export default function Client({ community }: { community: Community }) {
   const [showMembers, setShowMembers] = useState(false);
   const [loading, setLoading] = useState(false);
   const [loadingRecentlyJoined, setLoadingRecentlyJoined] = useState(false);
+  const [readMore, setReadMore] = useState(false);
 
   const [membersCount, setMembersCount] = useState();
   const [floorPrice, setFloorPrice] = useState<FloorPrice>();
@@ -377,9 +378,23 @@ export default function Client({ community }: { community: Community }) {
             )}
           </div>
         </div>
-        <div className="hidden md:flex items-center gap-2 mt-4 text-muted-foreground px-4">
-          {truncate(280, metadata?.openSea?.description)}
-        </div>
+        {metadata?.openSea?.description && (
+          <div className="hidden md:flex flex-col gap-2 mt-4 text-muted-foreground px-4">
+            {readMore
+              ? metadata?.openSea?.description
+              : truncate(200, metadata?.openSea?.description)}
+            <div>
+              <Button
+                size="xs"
+                variant="link"
+                onClick={() => setReadMore(!readMore)}
+                className="px-0"
+              >
+                Read more
+              </Button>
+            </div>
+          </div>
+        )}
         <div className="grid md:flex grid-cols-12 gap-4 items-center mt-4 px-4">
           <Card className="col-span-6">
             <div className="px-4 py-2 flex flex-col">
