@@ -34,6 +34,7 @@ export const listMembers = mysqlTable(
     twitterUserId: varchar('twitter_user_id', { length: 255 }),
     twitterName: varchar('twitter_name', { length: 255 }),
     tokenId: varchar('token_id', { length: 100 }),
+    label: varchar('label', { length: 255 }),
     createdAt: timestamp('created_at')
       .notNull()
       .default(sql`CURRENT_TIMESTAMP`),

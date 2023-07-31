@@ -563,25 +563,27 @@ export default function Client({ community }: { community: Community }) {
         </div>
       </div>
       <div className="col-span-12 lg:col-span-4 flex flex-col gap-8  px-4">
+        {/* <div className="flex flex-col gap-3">
+          <h1 className="text-xl font-bold bg-gradient-to-br text-transparent bg-clip-text from-purple-500 to-cyan-500">
+            Upcoming event
+          </h1>
+          {closestEvent ? (
+            <EventsBanner community={community} event={closestEvent} />
+          ) : (
+            <p className="text-muted-foreground">No upcoming events</p>
+          )}
+        </div> */}
         <div className="flex flex-col gap-3">
           <h1 className="text-xl font-bold bg-gradient-to-br text-transparent bg-clip-text from-purple-500 to-cyan-500">
             Weekly Top Tweets
           </h1>
-          {mockTweets.map((tweet, index) => (
-            <div className="test" key={index}>
-              <Tweet id={tweet} />
-            </div>
-          ))}
-        </div>
-        <div className="flex flex-col gap-3">
-          <h1 className="text-xl font-bold bg-gradient-to-br text-transparent bg-clip-text from-purple-500 to-cyan-500">
-            Upcoming event
-          </h1>
-          {/* {closestEvent ? (
-            <EventsBanner community={community} event={closestEvent} />
-          ) : ( */}
-          <p className="text-muted-foreground">No upcoming events</p>
-          {/* )} */}
+          <div className="gap-4">
+            {mockTweets.map((tweet, index) => (
+              <div className="test" key={index}>
+                <Tweet id={tweet} />
+              </div>
+            ))}
+          </div>
         </div>
       </div>
       <VerifyWalletsDialogue

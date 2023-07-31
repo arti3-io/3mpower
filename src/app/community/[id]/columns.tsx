@@ -8,6 +8,7 @@ import { ArrowUpDown } from 'lucide-react';
 import Image from 'next/image';
 import moment from 'moment';
 import Link from 'next/link';
+import { Badge } from '@/components/ui/badge';
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
@@ -57,6 +58,52 @@ export const columns: ColumnDef<Member>[] = [
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       );
+    },
+    cell: ({ row }) => {
+      return (
+        <div className="w-[120px] overflow-hidden whitespace-nowrap text-ellipsis">
+          {row.getValue('twitterName')}
+        </div>
+      );
+    },
+  },
+
+  {
+    accessorKey: 'twitterUserId',
+    id: 'twitterUserId',
+    header: () => <div />,
+    cell: ({ row }) => {
+      return (
+        <Link
+          href={`https://x.com/intent/user?user_id=${row.getValue(
+            'twitterUserId'
+          )}`}
+          target="_blank"
+        >
+          <Button size="xs" variant="outline">
+            Follow
+          </Button>
+        </Link>
+      );
+    },
+  },
+  {
+    accessorKey: 'label',
+    id: 'label',
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+        >
+          Label
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
+    cell: ({ row }) => {
+      const labelValue: string = row.getValue('label');
+      return labelValue ? <Badge>{labelValue}</Badge> : null;
     },
   },
   // {
@@ -118,25 +165,6 @@ export const columns: ColumnDef<Member>[] = [
       const joinedAt = moment(row.getValue('updatedAt'));
 
       return <div className="text-right font-medium">{joinedAt.fromNow()}</div>;
-    },
-  },
-  {
-    accessorKey: 'twitterUserId',
-    id: 'twitterUserId',
-    header: () => <div />,
-    cell: ({ row }) => {
-      return (
-        <Link
-          href={`https://x.com/intent/user?user_id=${row.getValue(
-            'twitterUserId'
-          )}`}
-          target="_blank"
-        >
-          <Button size="xs" variant="outline">
-            Follow
-          </Button>
-        </Link>
-      );
     },
   },
 ];
