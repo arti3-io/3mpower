@@ -3,11 +3,14 @@ import {
   CalendarCheck,
   CircleDashed,
   Coins,
+  ExternalLink,
   Gem,
   Globe,
   History,
   Home,
   ListChecks,
+  MoreHorizontal,
+  SlidersHorizontal,
   UserPlus2,
 } from 'lucide-react';
 import {
@@ -92,6 +95,7 @@ export const Icons = {
       />
     </svg>
   ),
+  view: SlidersHorizontal,
   join: UserPlus2,
   web: Globe,
   coins: Coins,
@@ -115,6 +119,7 @@ export const Icons = {
       />
     </svg>
   ),
+
   opensea: (props: LucideProps) => (
     <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" {...props}>
       <g clipPath="url(#clip0_0_3)">
@@ -158,6 +163,7 @@ export const Icons = {
       />
     </svg>
   ),
+  external: ExternalLink,
   activity: Activity,
   home: Home,
   history: History,
@@ -177,6 +183,7 @@ export const Icons = {
   settings: Settings,
   billing: CreditCard,
   ellipsis: MoreVertical,
+  moreH: MoreHorizontal,
   add: Plus,
   warning: AlertTriangle,
   user: User,

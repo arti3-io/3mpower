@@ -11,7 +11,7 @@ import Image from 'next/image';
 import { DataTable } from './data-table';
 import { columns } from './columns';
 import { useEffect, useState } from 'react';
-import { motion } from 'framer-motion';
+
 import { formatNumber, getConditionTitleAndValue, truncate } from '@/lib/utils';
 import Link from 'next/link';
 import { FloorPrice } from '@/types/alchemy';
@@ -35,6 +35,7 @@ export default function Client({ community }: { community: Community }) {
   const [loading, setLoading] = useState(false);
   const [loadingRecentlyJoined, setLoadingRecentlyJoined] = useState(false);
   const [readMore, setReadMore] = useState(false);
+  const [topTweets, setTopTweets] = useState<any[]>([]);
 
   const [membersCount, setMembersCount] = useState();
   const [floorPrice, setFloorPrice] = useState<FloorPrice>();
@@ -105,6 +106,24 @@ export default function Client({ community }: { community: Community }) {
   }, []);
 
   useEffect(() => {
+    const getTopTweets = async () => {
+      setLoadingRecentlyJoined(true);
+      const res = await fetch(`/api/lists/tweets/${community.list}/top`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
+      const data = await res.json();
+
+      await setTopTweets(data);
+    };
+
+    getTopTweets();
+  }, []);
+
+  useEffect(() => {
     const getActiveMembers = async () => {
       const res = await fetch(`/api/lists/stats/${community.list}/active`, {
         method: 'GET',
@@ -147,23 +166,45 @@ export default function Client({ community }: { community: Community }) {
 
       const data = await res.json();
 
-      const memberPromises = data.members.map(async (member: any) => {
-        const res = await fetch(
-          `/api/nft/${community.contractAddr}/${member.tokenId}`,
-          {
-            method: 'GET',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-          }
-        );
-        const token = await res.json();
-        return { ...member, pfp: token.media[0].thumbnail };
-      });
-      const members = await Promise.all(memberPromises);
+      const chunkSize = 10;
+      const memberChunks = [];
+      for (let i = 0; i < data.members.length; i += chunkSize) {
+        memberChunks.push(data.members.slice(i, i + chunkSize));
+      }
+
+      const processChunk = async (chunk: any) => {
+        const memberPromises = chunk.map(async (member: any) => {
+          const res = await fetch(
+            `/api/nft/${community.contractAddr}/${member.tokenId}`,
+            {
+              method: 'GET',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+            }
+          );
+          const token = await res.json();
+          return { ...member, pfp: token.media[0].thumbnail };
+        });
+        return Promise.all(memberPromises);
+      };
+
+      const members = [];
+      for (let i = 0; i < memberChunks.length; i++) {
+        const chunk = memberChunks[i];
+        const processedChunk = await processChunk(chunk);
+        members.push(...processedChunk);
+
+        // Introduce a delay of 100 milliseconds (10 requests per second)
+        if (i < memberChunks.length - 1) {
+          await new Promise((resolve) => setTimeout(resolve, 100));
+        }
+      }
+
       await setMembers(members);
       setLoading(false);
     };
+
     getAllMembers();
   }, [showMembers]);
 
@@ -502,7 +543,7 @@ export default function Client({ community }: { community: Community }) {
                         >
                           <Avatar className="h-10 w-10">
                             <AvatarImage
-                              src={member?.media[0]?.thumbnail}
+                              src={member.media && member?.media[0]?.thumbnail}
                               alt={`@${member.twitterId}`}
                             />
                             <AvatarFallback>3M</AvatarFallback>
@@ -593,11 +634,15 @@ export default function Client({ community }: { community: Community }) {
             Weekly Top Tweets
           </h1>
           <div className="gap-4">
-            {mockTweets.map((tweet, index) => (
-              <div className="custom-tweet" key={index}>
-                <Tweet id={tweet} />
-              </div>
-            ))}
+            {topTweets.length > 0 ? (
+              topTweets.map((tweet, index) => (
+                <div className="custom-tweet" key={index}>
+                  <Tweet id={tweet.tweetId} />
+                </div>
+              ))
+            ) : (
+              <p className="text-muted-foreground mt-4">No top tweets</p>
+            )}
           </div>
         </div>
       </div>
@@ -609,12 +654,6 @@ export default function Client({ community }: { community: Community }) {
     </div>
   );
 }
-
-const mockTweets = [
-  '1685381622651400192',
-  '1685112214619901952',
-  '1683648814618656773',
-];
 
 const RegisterProcess = ({
   loading,

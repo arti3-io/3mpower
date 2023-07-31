@@ -9,17 +9,19 @@ import Image from 'next/image';
 import moment from 'moment';
 import Link from 'next/link';
 import { Badge } from '@/components/ui/badge';
+import { DataTableRowActions } from './data-table-row-actions';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
 export type Member = {
-  rank: number;
-  id: string;
-  name: string;
-  profile_url: string;
+  twitterUserId: string;
+  twitterName: string;
+  profile_url?: string;
   engagement: number;
   engagement_rank: number;
-  joined_at: Date;
+  updatedAt: Date;
+  label: string;
 };
 
 export const columns: ColumnDef<Member>[] = [
@@ -35,13 +37,10 @@ export const columns: ColumnDef<Member>[] = [
       const name: string = row.getValue('twitterName');
       return (
         <div className="flex items-center w-8 h-8">
-          <Image
-            className="rounded-full"
-            src={profile_url}
-            alt={name}
-            width={32}
-            height={32}
-          />
+          <Avatar className="h-10 w-10">
+            <AvatarImage src={profile_url && profile_url} alt={`@${name}`} />
+            <AvatarFallback>3M</AvatarFallback>
+          </Avatar>
         </div>
       );
     },
@@ -80,9 +79,7 @@ export const columns: ColumnDef<Member>[] = [
           )}`}
           target="_blank"
         >
-          <Button size="xs" variant="outline">
-            Follow
-          </Button>
+          <Button size="xs">Follow</Button>
         </Link>
       );
     },
@@ -103,7 +100,7 @@ export const columns: ColumnDef<Member>[] = [
     },
     cell: ({ row }) => {
       const labelValue: string = row.getValue('label');
-      return labelValue ? <Badge>{labelValue}</Badge> : null;
+      return labelValue ? <Badge variant="outline">{labelValue}</Badge> : null;
     },
   },
   // {
@@ -167,4 +164,8 @@ export const columns: ColumnDef<Member>[] = [
       return <div className="text-right font-medium">{joinedAt.fromNow()}</div>;
     },
   },
+  // {
+  //   id: 'actions',
+  //   cell: ({ row }) => <DataTableRowActions row={row} />,
+  // },
 ];

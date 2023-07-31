@@ -88,3 +88,15 @@ export const userStats = mysqlTable(
     pk: primaryKey(us.twitterUserId, us.twitterListId, us.tweetId),
   })
 );
+
+export const topTweets = mysqlTable(
+  'top_tweets',
+  {
+    twitterListId: varchar('twitter_list_id', { length: 255 }).notNull(),
+    tweetId: varchar('tweet_id', { length: 255 }).notNull(),
+    createdAt: timestamp('created_at'),
+  },
+  (us) => ({
+    pk: primaryKey(us.twitterListId, us.tweetId),
+  })
+);
