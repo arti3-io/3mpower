@@ -11,13 +11,13 @@ export default function ExploreButton() {
       {status === 'authenticated' ? (
         <Link href={'/#educate'}>
           <Button className="bg-gradient-to-br from-purple-500 to-cyan-500">
-            Explore
+            Explore lists
           </Button>
         </Link>
       ) : (
         <Link href={'/signin'}>
           <Button className="bg-gradient-to-br from-purple-500 to-cyan-500">
-            Sign in with Twitter
+            Sign in to join lists
           </Button>
         </Link>
       )}

@@ -24,7 +24,7 @@ export function SignInDialogue({ children }: { children: React.ReactNode }) {
         <div className="grid grid-cols-1 gap-6">
           <Button variant="outline" className="w-full bg-twitter">
             <Icons.twitter className="mr-2 h-4 w-4" />
-            Sign in with Twitter
+            Sign in with X
           </Button>
         </div>
       </DialogContent>
