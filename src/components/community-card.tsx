@@ -6,7 +6,6 @@ import { Icons } from './icons';
 import { FilterDialogue } from './filter-dialogue';
 
 import { Community } from '@/types/community';
-import { CollectionDialogue } from './collection-dialogue';
 import { ConditionCarousel } from './condition-carousel';
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
@@ -50,7 +49,7 @@ export function CommunityCard({
           />
         </div>
         <div className="mt-4 flex justify-between items-center">
-          <div className="font-bold">{community.name} Twitter List</div>
+          <div className="font-bold">{community.name}</div>
           <div className="flex gap-2">
             <div className="flex items-center text-sm">
               <Icons.user className="mr-1 h-4 w-4" />

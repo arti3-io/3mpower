@@ -568,7 +568,7 @@ export default function Client({ community }: { community: Community }) {
             Weekly Top Tweets
           </h1>
           {mockTweets.map((tweet, index) => (
-            <div className="light custom-tweet" key={index}>
+            <div className="test" key={index}>
               <Tweet id={tweet} />
             </div>
           ))}
