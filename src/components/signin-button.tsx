@@ -17,7 +17,7 @@ export function Signin() {
     setLoading(true);
 
     await signIn('twitter', {
-      callbackUrl: `${getBaseUrl}/${from}`,
+      callbackUrl: `${getBaseUrl()}/${from}`,
     });
     setLoading(false);
   };
