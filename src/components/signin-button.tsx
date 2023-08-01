@@ -16,7 +16,8 @@ export function Signin() {
     setLoading(true);
 
     await signIn('twitter', {
-      callbackUrl: `http://localhost:3000/${from}`,
+      callbackUrl:
+        `process.env.VERCEL_URL${from}` ?? `http://localhost:3000/${from}`,
     });
     setLoading(false);
   };
