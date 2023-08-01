@@ -33,9 +33,9 @@ export default async function Home() {
           </h1>
           <p className="text-sm md:text-center lg:text-left text-gray-500 mt-4">
             Connect, engage, and grow your community, start by simply signing in
-            with Twitter, connect your wallet and join token-gate Twitter lists
-            below.
+            with 𝕏, connect your wallet and join token-gated 𝕏 lists below.
           </p>
+
           <div className="flex justify-center lg:justify-normal mt-8 gap-4">
             <ExploreButton />
             <Link href={env.NEXT_PUBLIC_DISCORD_INVITE_URL} target="_blank">
@@ -71,9 +71,9 @@ export default async function Home() {
             </h1>
             <p className="text-md text-center text-gray-500 max-w-screen-sm mx-auto">
               Foster meaningful connections with your community through curated
-              Twitter lists and interactive initiatives. Enhance engagement,
-              nurture relationships, and create a thriving community ecosystem
-              that fosters collaboration, support, and growth.
+              𝕏 lists and interactive initiatives. Enhance engagement, nurture
+              relationships, and create a thriving community ecosystem that
+              fosters collaboration, support, and growth.
             </p>
           </div>
           <div className="w-full grid grid-cols-12 gap-4 mt-24">
@@ -83,13 +83,13 @@ export default async function Home() {
                   <Icons.add />
                 </div>
                 <h1 className="text-2xl font-bold">
-                  Experience Token-Gated Curated Twitter Lists
+                  Experience Token-Gated 𝕏 Lists
                 </h1>
                 <p className="text-md text-gray-500 mt-4">
-                  Discover and stay connected with your beloved communities on
-                  Twitter through our innovative token-gated lists. Immerse
-                  yourself in the platform you love while seamlessly exploring
-                  curated content and fostering meaningful connections.
+                  Discover and stay connected with your beloved communities on 𝕏
+                  through our innovative token-gated lists. Immerse yourself in
+                  the platform you love while seamlessly exploring curated
+                  content and fostering meaningful connections.
                 </p>
               </div>
               <div>
@@ -97,12 +97,12 @@ export default async function Home() {
                   <Icons.community />
                 </div>
                 <h1 className="text-2xl font-bold">
-                  Seamlessly Engage with Your Community on Twitter
+                  Seamlessly Engage with Your Community on 𝕏
                 </h1>
                 <p className="text-md text-gray-500 mt-4">
-                  Interact effortlessly with your community directly on Twitter
-                  using our token-gated lists. Leave the worry of identifying
-                  real holders to us as we ensure authenticity. Explore curated
+                  Interact effortlessly with your community directly on 𝕏 using
+                  our token-gated lists. Leave the worry of identifying real
+                  holders to us as we ensure authenticity. Explore curated
                   timelines effortlessly, scrolling through carefully selected
                   content that resonates with your interests.
                 </p>
