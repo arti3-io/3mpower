@@ -84,21 +84,7 @@ export default function Client({ community }: { community: Community }) {
 
       const data = await res.json();
 
-      const memberPromises = data.members.map(async (member: any) => {
-        const res = await fetch(
-          `/api/nft/${community.contractAddr}/${member.tokenId}`,
-          {
-            method: 'GET',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-          }
-        );
-        const token = await res.json();
-        return { ...member, media: token.media };
-      });
-      const members = await Promise.all(memberPromises);
-      await setRecentMembers(members);
+      await setRecentMembers(data.members);
       setLoadingRecentlyJoined(false);
     };
 
@@ -166,42 +152,7 @@ export default function Client({ community }: { community: Community }) {
 
       const data = await res.json();
 
-      const chunkSize = 10;
-      const memberChunks = [];
-      for (let i = 0; i < data.members.length; i += chunkSize) {
-        memberChunks.push(data.members.slice(i, i + chunkSize));
-      }
-
-      const processChunk = async (chunk: any) => {
-        const memberPromises = chunk.map(async (member: any) => {
-          const res = await fetch(
-            `/api/nft/${community.contractAddr}/${member.tokenId}`,
-            {
-              method: 'GET',
-              headers: {
-                'Content-Type': 'application/json',
-              },
-            }
-          );
-          const token = await res.json();
-          return { ...member, pfp: token.media[0].thumbnail };
-        });
-        return Promise.all(memberPromises);
-      };
-
-      const members = [];
-      for (let i = 0; i < memberChunks.length; i++) {
-        const chunk = memberChunks[i];
-        const processedChunk = await processChunk(chunk);
-        members.push(...processedChunk);
-
-        // Introduce a delay of 100 milliseconds (10 requests per second)
-        if (i < memberChunks.length - 1) {
-          await new Promise((resolve) => setTimeout(resolve, 100));
-        }
-      }
-
-      await setMembers(members);
+      setMembers(data.members);
       setLoading(false);
     };
 
@@ -543,7 +494,7 @@ export default function Client({ community }: { community: Community }) {
                         >
                           <Avatar className="h-10 w-10">
                             <AvatarImage
-                              src={member.media && member?.media[0]?.thumbnail}
+                              src={member?.profilePictureUrl}
                               alt={`@${member.twitterId}`}
                             />
                             <AvatarFallback>3M</AvatarFallback>

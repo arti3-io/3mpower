@@ -30,10 +30,10 @@ export const columns: ColumnDef<Member>[] = [
   //   header: () => <div>#</div>,
   // },
   {
-    accessorKey: 'pfp',
+    accessorKey: 'profilePictureUrl',
     header: () => <div />,
     cell: ({ row }) => {
-      const profile_url: string = row.getValue('pfp');
+      const profile_url: string = row.getValue('profilePictureUrl');
       const name: string = row.getValue('twitterName');
       return (
         <div className="flex items-center w-8 h-8">
