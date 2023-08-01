@@ -4,7 +4,7 @@ import { Button } from './ui/button';
 import { useState } from 'react';
 
 import { Icons } from './icons';
-import { useRouter } from 'next/navigation';
+import { useRouter, usePathname } from 'next/navigation';
 
 export function SigninNav({
   className,
@@ -15,6 +15,7 @@ export function SigninNav({
 } = {}) {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
+  const pathname = usePathname();
 
   return (
     <Button
@@ -23,7 +24,7 @@ export function SigninNav({
       size={loading ? 'icon' : 'sm'}
       onClick={() => {
         setLoading(true);
-        router.push('/signin');
+        router.push(`/signin?from=${pathname}`);
         setLoading(false);
       }}
     >
