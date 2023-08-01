@@ -1,0 +1,1 @@
+ALTER TABLE `join_queue` ADD `profile_picture_url` varchar(255);
