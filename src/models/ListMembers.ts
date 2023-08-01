@@ -142,6 +142,7 @@ export const upsertMembers = async (members: newMember[]) => {
       set: {
         twitterUserId: sql`VALUES(twitter_user_id)`,
         twitterName: sql`VALUES(twitter_name)`,
+        profilePictureUrl: sql`VALUES(profile_picture_url)`,
         updatedAt: sql`NOW()`,
       },
     });

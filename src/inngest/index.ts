@@ -34,6 +34,7 @@ export const manageQueue = inngest.createFunction(
             twitterUserId: member.twitterUserId,
             twitterName: member.twitterName,
             tokenId: member.tokenId,
+            profilePictureUrl: member.profilePictureUrl,
           });
         }
 

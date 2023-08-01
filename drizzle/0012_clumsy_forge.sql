@@ -1,0 +1,1 @@
+ALTER TABLE `list_members` ADD `label` varchar(255);
