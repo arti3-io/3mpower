@@ -1,19 +1,40 @@
-import { eq, desc, and, sql } from 'drizzle-orm';
+import { eq, desc, and, sql, gte } from 'drizzle-orm';
 import { listMembers } from '@/db/schema';
 import { newMember } from '@/types/DB';
 import { db } from '@/db/';
 
 export const getMembersFromList = async (
   twitterListId: string,
-  limit: number
+  limit?: number
 ) => {
-  const members: any[] = await db
+  let query = db
     .select()
     .from(listMembers)
-    .where(eq(listMembers.twitterListId, twitterListId))
-    .limit(limit);
+    .where(eq(listMembers.twitterListId, twitterListId));
 
-  return members;
+  if (limit) {
+    query = query.limit(limit);
+  }
+  return query;
+};
+
+export const getMonthlyJoinsFromList = async (twitterListId: string) => {
+  const thirtyDaysAgo = new Date();
+  thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+
+  let query = await db
+    .select({
+      count: sql`COUNT(*)`,
+    })
+    .from(listMembers)
+    .where(
+      and(
+        eq(listMembers.twitterListId, twitterListId),
+        gte(listMembers.updatedAt, thirtyDaysAgo)
+      )
+    );
+
+  return query[0];
 };
 
 export const getTopLists = async (limit?: number) => {
@@ -56,15 +77,17 @@ export const getRecentLists = async (limit?: number) => {
 
 export const getRecentMembersFromList = async (
   twitterListId: string,
-  limit: number
+  limit?: number
 ) => {
-  const members: any[] = await db
+  let query = db
     .select()
     .from(listMembers)
     .where(eq(listMembers.twitterListId, twitterListId))
-    .orderBy(desc(listMembers.updatedAt))
-    .limit(limit);
-  return members;
+    .orderBy(desc(listMembers.updatedAt));
+  if (limit) {
+    query = query.limit(limit);
+  }
+  return query;
 };
 
 export const getMembersCountFromList = async (twitterListId: string) => {
@@ -119,9 +142,8 @@ export const upsertMembers = async (members: newMember[]) => {
       set: {
         twitterUserId: sql`VALUES(twitter_user_id)`,
         twitterName: sql`VALUES(twitter_name)`,
+        profilePictureUrl: sql`VALUES(profile_picture_url)`,
         updatedAt: sql`NOW()`,
       },
     });
 };
-
-//create function update row when duplicate key and insert new row

@@ -1,0 +1,1 @@
+ALTER TABLE `list_members` ADD `profile_picture_url` varchar(255);

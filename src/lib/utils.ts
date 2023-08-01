@@ -19,7 +19,8 @@ export function truncatedAddr(address: string) {
   return `${address.slice(0, 6)}...${address.slice(-6)}`;
 }
 
-export function formatNumber(number: number) {
+export function formatNumber(value: number | string) {
+  const number = typeof value === 'string' ? parseInt(value) : value;
   if (number >= 1000000) {
     return (number / 1000000).toFixed(1) + 'M';
   } else if (number >= 1000) {
@@ -56,4 +57,15 @@ export const getConditionTitleAndValue = (
         value: '',
       };
   }
+};
+
+// truncate text to 280 characters
+export const truncate = (length: number, text?: string) => {
+  if (!text) {
+    return '';
+  }
+  if (text.length <= length) {
+    return text;
+  }
+  return text.slice(0, length) + '...';
 };

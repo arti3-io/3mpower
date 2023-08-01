@@ -3,17 +3,20 @@ import { signIn, useSession } from 'next-auth/react';
 import { Button } from './ui/button';
 import { useState } from 'react';
 import { Icons } from './icons';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 
 export function Signin() {
   const [loading, setLoading] = useState(false);
   const { status } = useSession();
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const from = searchParams.get('from');
 
   const handleSignin = async () => {
     setLoading(true);
+
     await signIn('twitter', {
-      callbackUrl: 'http://localhost:3000/',
+      callbackUrl: `http://localhost:3000/${from}`,
     });
     setLoading(false);
   };

@@ -152,6 +152,7 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
               twitterName: user.name,
               twitterListId: communityInfo.list,
               tokenId,
+              profilePictureUrl: user.image,
             },
           ]);
           //increase rate limit count +1

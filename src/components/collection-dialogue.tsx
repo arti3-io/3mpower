@@ -110,12 +110,15 @@ export function CollectionDialogue({
 
   useEffect(() => {
     const getRecentMembers = async () => {
-      const res = await fetch(`/api/lists/members/${community.list}/recent`, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
+      const res = await fetch(
+        `/api/lists/members/${community.list}/recent?limit=6`,
+        {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        }
+      );
 
       const data = await res.json();
 
@@ -158,7 +161,7 @@ export function CollectionDialogue({
       setHolders(data.holders);
     };
     const getMembers = async () => {
-      const res = await fetch(`/api/lists/members/${community.list}`, {
+      const res = await fetch(`/api/lists/members/${community.list}?limit=6`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -346,8 +349,8 @@ export function CollectionDialogue({
             <div className="flex flex-col gap-2 w-3/4">
               <DialogTitle className="text-left">{community.name}</DialogTitle>
               <DialogDescription className="text-left">
-                Join this token-gated Twitter list to get added to the custom
-                feed to easier support each other.
+                Join this token-gated 𝕏 list to get added to the custom feed to
+                easier support each other.
               </DialogDescription>
             </div>
             <CollectionMenu community={community} />

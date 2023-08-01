@@ -76,3 +76,21 @@
     @apply bg-background text-foreground;
   }
 }
+
+.custom-tweet .react-tweet-theme {
+  --tweet-bg-color: #09090b;
+  --tweet-bg-color-hover: #27272a;
+  --tweet-border: 1px solid #27272a;
+  --tweet-body-font-size: 16px;
+  --tweet-body-font-weight: 300;
+  --tweet-body-line-height: 24px;
+  --tweet-font-color: #fafafa;
+  --tweet-font-color-secondary: #71717a;
+  --tweet-skeleton-gradient: linear-gradient(
+    270deg,
+    #3f3f46,
+    #27272a,
+    #27272a,
+    #18181b
+  );
+}
