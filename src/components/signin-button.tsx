@@ -4,6 +4,7 @@ import { Button } from './ui/button';
 import { useState } from 'react';
 import { Icons } from './icons';
 import { useRouter, useSearchParams } from 'next/navigation';
+import { getBaseUrl } from '@/lib/utils';
 
 export function Signin() {
   const [loading, setLoading] = useState(false);
@@ -16,8 +17,7 @@ export function Signin() {
     setLoading(true);
 
     await signIn('twitter', {
-      callbackUrl:
-        `process.env.VERCEL_URL${from}` ?? `http://localhost:3000/${from}`,
+      callbackUrl: `${getBaseUrl}/${from}`,
     });
     setLoading(false);
   };
