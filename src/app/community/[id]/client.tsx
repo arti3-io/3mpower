@@ -399,7 +399,7 @@ export default function Client({ community }: { community: Community }) {
               <div className="text-xs text-muted-foreground">30d Joins</div>
             </div>
           </Card>
-          <Card className="col-span-6">
+          {/* <Card className="col-span-6">
             <div className="px-4 py-2 flex flex-col">
               <div className="flex items-center">
                 <Icons.activity className="mr-1 h-3 w-3" />
@@ -409,7 +409,7 @@ export default function Client({ community }: { community: Community }) {
               </div>
               <div className="text-xs text-muted-foreground">Active</div>
             </div>
-          </Card>
+          </Card> */}
           <Card className="col-span-6">
             <div className="px-4 py-2 flex flex-col">
               <div className="flex items-center">
