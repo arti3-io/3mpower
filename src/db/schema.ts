@@ -109,3 +109,26 @@ export const topTweets = mysqlTable(
     pk: primaryKey(us.twitterListId, us.tweetId),
   })
 );
+
+export const listTweets = mysqlTable(
+  'list_tweets',
+  {
+    twitterListId: varchar('twitter_list_id', { length: 255 }).notNull(),
+    tweetId: varchar('tweet_id', { length: 255 }),
+    authorId: varchar('author_id', { length: 255 }),
+    replyToUsrId: varchar('reply_to_usr_id', { length: 255 }),
+    text: varchar('text', { length: 255 }),
+    refTweetType: varchar('ref_tweet_type', { length: 255 }),
+    refTweetId: varchar('ref_tweet_id', { length: 255 }),
+    tweetAt: timestamp('tweet_at').notNull(),
+    createdAt: timestamp('created_at')
+      .notNull()
+      .default(sql`CURRENT_TIMESTAMP`),
+    updatedAt: timestamp('updated_at')
+      .notNull()
+      .default(sql`CURRENT_TIMESTAMP`),
+  },
+  (us) => ({
+    pk: primaryKey(us.twitterListId, us.tweetId),
+  })
+);
