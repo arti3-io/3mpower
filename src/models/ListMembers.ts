@@ -1,6 +1,6 @@
 import { eq, desc, and, sql, gte } from 'drizzle-orm';
 import { listMembers } from '@/db/schema';
-import { newMember } from '@/types/DB';
+import { NewMember } from '@/types/DB';
 import { db } from '@/db/';
 
 export const getMembersFromList = async (
@@ -134,7 +134,7 @@ export const getMemberInfoByTokenId = async (
   return member[0];
 };
 
-export const upsertMembers = async (members: newMember[]) => {
+export const upsertMembers = async (members: NewMember[]) => {
   await db
     .insert(listMembers)
     .values(members)

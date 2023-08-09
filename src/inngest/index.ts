@@ -7,7 +7,7 @@ import { env } from '@/env.mjs';
 
 export const inngest = new Inngest({ name: '3MPOWER' });
 
-//reset limit and dequeue every 15 minutes
+//reset limit and dequeue every 15 minutesw
 export const manageQueue = inngest.createFunction(
   { name: 'Reset limit/Dequeue' },
   { cron: '*/15 * * * *' },

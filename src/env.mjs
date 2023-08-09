@@ -14,6 +14,7 @@ export const env = createEnv({
     NEXTAUTH_SECRET: z.string().min(1),
     ALCHEMY_KEY: z.string().min(1),
     OAUTH_OFFICIAL_TWITTER_KEY: z.string().min(1),
+    TWITTER_APP_OAUTH: z.string().min(1),
     RATE_LIMIT_COUNT: z.string().min(1),
     QUEUE_LIMIT: z.coerce.number().int().default(5),
   },
