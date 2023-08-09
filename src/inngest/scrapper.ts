@@ -11,7 +11,7 @@ import { env } from '@/env.mjs';
 //reset limit and dequeue every 15 minutes
 export const scapper = inngest.createFunction(
   { name: 'Scapper Function' },
-  { cron: '*/1 * * * *' },
+  { cron: '0 */6 * * *' },
   async ({ step }) => {
     await step.run('extract tweets', async () => {
       console.log('extract tweets');
@@ -19,7 +19,7 @@ export const scapper = inngest.createFunction(
       const twitterClient = new TwitterApi(env.TWITTER_APP_OAUTH);
 
       const { tweets: data, meta } = await twitterClient.v2.listTweets(listID, {
-        max_results: 5,
+        max_results: 25,
         expansions: ['referenced_tweets.id.author_id', 'referenced_tweets.id'],
         'tweet.fields': [
           'id',
