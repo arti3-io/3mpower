@@ -1,4 +1,4 @@
-import { sql, eq, and, desc } from 'drizzle-orm';
+import { sql, eq, and, desc, gte } from 'drizzle-orm';
 import { listTweets } from '@/db/schema';
 import { NewListTweet } from '@/types/DB';
 import { db } from '@/db/';
@@ -15,6 +15,9 @@ export const upsertTweets = async (acc: NewListTweet[]) => {
 };
 
 export const getTweetsByList = async (twitterListId: string) => {
+  const thirtyDaysAgo = new Date();
+  thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+
   let result = await db
     .select({
       points: sql`COUNT(*)`,
@@ -24,7 +27,8 @@ export const getTweetsByList = async (twitterListId: string) => {
     .where(
       and(
         eq(listTweets.twitterListId, twitterListId),
-        eq(listTweets.refTweetType, 'replied_to')
+        eq(listTweets.refTweetType, 'replied_to'),
+        gte(listTweets.tweetAt, thirtyDaysAgo)
       )
     )
     .groupBy(listTweets.authorId)

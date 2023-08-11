@@ -160,27 +160,27 @@ export const columns: ColumnDef<Member>[] = [
   //     return <div className="text-right font-medium">{engagement}</div>;
   //   },
   // },
-  {
-    accessorKey: 'updatedAt',
-    header: ({ column }) => {
-      return (
-        <div className="flex justify-end">
-          <Button
-            variant="ghost"
-            onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
-          >
-            Joined
-            <ArrowUpDown className="ml-2 h-4 w-4" />
-          </Button>
-        </div>
-      );
-    },
-    cell: ({ row }) => {
-      const joinedAt = moment(row.getValue('updatedAt'));
+  // {
+  //   accessorKey: 'updatedAt',
+  //   header: ({ column }) => {
+  //     return (
+  //       <div className="flex justify-end">
+  //         <Button
+  //           variant="ghost"
+  //           onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+  //         >
+  //           Joined
+  //           <ArrowUpDown className="ml-2 h-4 w-4" />
+  //         </Button>
+  //       </div>
+  //     );
+  //   },
+  //   cell: ({ row }) => {
+  //     const joinedAt = moment(row.getValue('updatedAt'));
 
-      return <div className="text-right font-medium">{joinedAt.fromNow()}</div>;
-    },
-  },
+  //     return <div className="text-right font-medium">{joinedAt.fromNow()}</div>;
+  //   },
+  // },
   // {
   //   id: 'actions',
   //   cell: ({ row }) => <DataTableRowActions row={row} />,

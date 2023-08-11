@@ -567,6 +567,9 @@ export default function Client({ community }: { community: Community }) {
               )}
             </TabsContent>
             <TabsContent value="members">
+              <span className="italic text-muted-foreground">
+                Rank is based on engagement within your community
+              </span>
               <DataTable columns={columns} data={members} loading={loading} />
             </TabsContent>
             <TabsContent value="conditions">
