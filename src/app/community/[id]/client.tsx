@@ -141,22 +141,67 @@ export default function Client({ community }: { community: Community }) {
   }, []);
 
   useEffect(() => {
-    const getAllMembers = async () => {
+    const fetchData = async () => {
       setLoading(true);
-      const res = await fetch(`/api/lists/members/${community.list}/recent`, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
 
-      const data = await res.json();
+      try {
+        const membersResponse = fetch(
+          `/api/lists/members/${community.list}/recent`,
+          {
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+          }
+        );
 
-      setMembers(data.members);
-      setLoading(false);
+        const pointsResponse = fetch(`/api/lists/tweets/${community.list}`, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
+
+        const [membersRes, pointsRes] = await Promise.all([
+          membersResponse,
+          pointsResponse,
+        ]);
+
+        const membersData = await membersRes.json();
+        const pointsData = await pointsRes.json();
+
+        // Merge pointsData into membersData based on twitterUserId
+        const mergedMembers = membersData.members.map((member: any) => {
+          const associatedPoint = pointsData.find(
+            (point: any) => point.twitterUserId === member.twitterUserId
+          );
+
+          return {
+            ...member,
+            points: associatedPoint ? associatedPoint.points : 0, // Default to 0 points if not found
+          };
+        });
+
+        mergedMembers.sort(
+          (a: any, b: any) => parseInt(b.points) - parseInt(a.points)
+        );
+
+        const rankedMembers = mergedMembers.map(
+          (member: any, index: number) => ({
+            ...member,
+            rank: index + 1,
+          })
+        );
+        setActiveMembers(pointsData.length);
+        setMembers(rankedMembers); // Assuming you have a state variable to hold the merged data
+        setLoading(false);
+      } catch (error) {
+        // Handle error here
+        setLoading(false);
+      }
     };
 
-    getAllMembers();
+    fetchData();
   }, [showMembers]);
 
   useEffect(() => {
@@ -399,7 +444,7 @@ export default function Client({ community }: { community: Community }) {
               <div className="text-xs text-muted-foreground">30d Joins</div>
             </div>
           </Card>
-          {/* <Card className="col-span-6">
+          <Card className="col-span-6">
             <div className="px-4 py-2 flex flex-col">
               <div className="flex items-center">
                 <Icons.activity className="mr-1 h-3 w-3" />
@@ -409,7 +454,7 @@ export default function Client({ community }: { community: Community }) {
               </div>
               <div className="text-xs text-muted-foreground">Active</div>
             </div>
-          </Card> */}
+          </Card>
           <Card className="col-span-6">
             <div className="px-4 py-2 flex flex-col">
               <div className="flex items-center">

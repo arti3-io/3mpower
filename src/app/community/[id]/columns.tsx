@@ -22,13 +22,30 @@ export type Member = {
   engagement_rank: number;
   updatedAt: Date;
   label: string;
+  rank: number;
 };
 
 export const columns: ColumnDef<Member>[] = [
-  // {
-  //   accessorKey: 'rank',
-  //   header: () => <div>#</div>,
-  // },
+  {
+    accessorKey: 'rank',
+    header: () => <div>#</div>,
+    cell: ({ row }) => {
+      // if rank is 1 then use gold emoji
+      // if rank is 2 then use silver emoji
+      // if rank is 3 then use bronze emoji
+      // else use rank number
+      const rank: string =
+        row.getValue('rank') === 1
+          ? '🥇'
+          : row.getValue('rank') === 2
+          ? '🥈'
+          : row.getValue('rank') === 3
+          ? '🥉'
+          : row.getValue('rank');
+
+      return <div className="text-right font-medium">{rank}</div>;
+    },
+  },
   {
     accessorKey: 'profilePictureUrl',
     header: () => <div />,
