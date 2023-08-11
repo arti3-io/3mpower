@@ -1,4 +1,4 @@
-import { sql, eq, asc } from 'drizzle-orm';
+import { sql, eq, and, desc } from 'drizzle-orm';
 import { listTweets } from '@/db/schema';
 import { NewListTweet } from '@/types/DB';
 import { db } from '@/db/';
@@ -16,18 +16,19 @@ export const upsertTweets = async (acc: NewListTweet[]) => {
 
 export const getTweetsByList = async (twitterListId: string) => {
   let result = await db
-    .select()
+    .select({
+      points: sql`COUNT(*)`,
+      twitterUserId: listTweets.authorId,
+    })
     .from(listTweets)
-    .where(eq(listTweets.twitterListId, twitterListId))
-    .orderBy(asc(listTweets.createdAt));
+    .where(
+      and(
+        eq(listTweets.twitterListId, twitterListId),
+        eq(listTweets.refTweetType, 'replied_to')
+      )
+    )
+    .groupBy(listTweets.authorId)
+    .orderBy(desc(sql`1`));
 
   return result;
 };
-
-// export const getAccountInfo = async (twitterId: string) => {
-//   const account = await db
-//     .select()
-//     .from(accounts)
-//     .where(eq(accounts.twitterId, twitterId));
-//   return account[0];
-// };
