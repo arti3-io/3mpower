@@ -23,7 +23,7 @@ export const scapper = inngest.createFunction(
         expansions: ['referenced_tweets.id.author_id', 'referenced_tweets.id'],
         'tweet.fields': [
           'id',
-          'text',
+          // 'text',
           'author_id',
           'in_reply_to_user_id',
           'public_metrics',
@@ -43,7 +43,7 @@ export const scapper = inngest.createFunction(
           refTweetId: tweet.referenced_tweets
             ? tweet.referenced_tweets[0].id
             : null,
-          text: tweet.text,
+          // text: tweet.text,
           tweetAt: moment(tweet.created_at).toDate(),
         };
       });
