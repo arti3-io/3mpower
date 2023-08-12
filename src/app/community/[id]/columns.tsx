@@ -11,6 +11,7 @@ import Link from 'next/link';
 import { Badge } from '@/components/ui/badge';
 import { DataTableRowActions } from './data-table-row-actions';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Icons } from '@/components/icons';
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
@@ -23,28 +24,53 @@ export type Member = {
   updatedAt: Date;
   label: string;
   rank: number;
+  previousRank: number;
 };
 
 export const columns: ColumnDef<Member>[] = [
   {
     accessorKey: 'rank',
-    header: () => <div>#</div>,
-    cell: ({ row }) => {
-      // if rank is 1 then use gold emoji
-      // if rank is 2 then use silver emoji
-      // if rank is 3 then use bronze emoji
-      // else use rank number
-      const rank: string =
-        row.getValue('rank') === 1
-          ? '🥇'
-          : row.getValue('rank') === 2
-          ? '🥈'
-          : row.getValue('rank') === 3
-          ? '🥉'
-          : row.getValue('rank');
-
-      return <div className="text-right font-medium">{rank}</div>;
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+        >
+          #
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
     },
+    cell: ({ row }) => {
+      const rank: number = row.getValue('rank');
+      const previousRank: number = row.getValue('previousRank');
+      const rankChange: number = previousRank === 0 ? 0 : previousRank - rank;
+
+      return (
+        <div className="flex flex-col">
+          <div>{rank}</div>
+          <div className="text-xs flex">
+            {rankChange === 0 ? (
+              <div className="flex items-center">-</div>
+            ) : rankChange < 0 ? (
+              <div className="text-destructive flex items-center">
+                {rankChange}
+                <Icons.chevronDown className="w-4 h-4" />
+              </div>
+            ) : (
+              <div className="text-green-500 flex items-center">
+                {rankChange}
+                <Icons.chevronUp className="w-4 h-4" />
+              </div>
+            )}
+          </div>
+        </div>
+      );
+    },
+  },
+  {
+    accessorKey: 'previousRank',
+    enableHiding: false,
   },
   {
     accessorKey: 'profilePictureUrl',
@@ -120,69 +146,4 @@ export const columns: ColumnDef<Member>[] = [
       return labelValue ? <Badge variant="outline">{labelValue}</Badge> : null;
     },
   },
-  // {
-  //   accessorKey: 'engagement_rank',
-  //   header: ({ column }) => {
-  //     return (
-  //       <div className="flex justify-end">
-  //         <Button
-  //           variant="ghost"
-  //           onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
-  //         >
-  //           Engagement Rank
-  //           <ArrowUpDown className="ml-2 h-4 w-4" />
-  //         </Button>
-  //       </div>
-  //     );
-  //   },
-  //   cell: ({ row }) => {
-  //     const engagement = parseFloat(row.getValue('engagement_rank'));
-  //     return <div className="text-right font-medium">{engagement}</div>;
-  //   },
-  // },
-  // {
-  //   accessorKey: 'engagement',
-  //   header: ({ column }) => {
-  //     return (
-  //       <div className="flex justify-end">
-  //         <Button
-  //           variant="ghost"
-  //           onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
-  //         >
-  //           Engagement
-  //           <ArrowUpDown className="ml-2 h-4 w-4" />
-  //         </Button>
-  //       </div>
-  //     );
-  //   },
-  //   cell: ({ row }) => {
-  //     const engagement = parseFloat(row.getValue('engagement'));
-  //     return <div className="text-right font-medium">{engagement}</div>;
-  //   },
-  // },
-  // {
-  //   accessorKey: 'updatedAt',
-  //   header: ({ column }) => {
-  //     return (
-  //       <div className="flex justify-end">
-  //         <Button
-  //           variant="ghost"
-  //           onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
-  //         >
-  //           Joined
-  //           <ArrowUpDown className="ml-2 h-4 w-4" />
-  //         </Button>
-  //       </div>
-  //     );
-  //   },
-  //   cell: ({ row }) => {
-  //     const joinedAt = moment(row.getValue('updatedAt'));
-
-  //     return <div className="text-right font-medium">{joinedAt.fromNow()}</div>;
-  //   },
-  // },
-  // {
-  //   id: 'actions',
-  //   cell: ({ row }) => <DataTableRowActions row={row} />,
-  // },
 ];

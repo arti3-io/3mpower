@@ -67,7 +67,10 @@ export function DataTable<TData, TValue>({
     state: {
       sorting,
       columnFilters,
-      columnVisibility,
+      columnVisibility: {
+        ...columnVisibility,
+        previousRank: false,
+      },
       rowSelection,
     },
   });

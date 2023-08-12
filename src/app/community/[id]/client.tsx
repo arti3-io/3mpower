@@ -179,6 +179,7 @@ export default function Client({ community }: { community: Community }) {
           return {
             ...member,
             points: associatedPoint ? associatedPoint.points : 0, // Default to 0 points if not found
+            previousRank: associatedPoint ? associatedPoint.previousRank : 0, // Default to 0 previousRank if not found
           };
         });
 
@@ -192,6 +193,7 @@ export default function Client({ community }: { community: Community }) {
             rank: index + 1,
           })
         );
+
         setActiveMembers(pointsData.length);
         setMembers(rankedMembers); // Assuming you have a state variable to hold the merged data
         setLoading(false);

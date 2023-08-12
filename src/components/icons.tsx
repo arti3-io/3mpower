@@ -1,6 +1,8 @@
 import {
   Activity,
   CalendarCheck,
+  ChevronDown,
+  ChevronUp,
   CircleDashed,
   Coins,
   ExternalLink,
@@ -176,6 +178,8 @@ export const Icons = {
   chevronLeft: ChevronLeft,
   chevronRight: ChevronRight,
   chevronsDown: ChevronsDown,
+  chevronDown: ChevronDown,
+  chevronUp: ChevronUp,
   trash: Trash,
   post: FileText,
   page: File,
