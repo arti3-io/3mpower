@@ -23,7 +23,7 @@ export type CommunityEvent = {
 export type BalanceType = {
   type: 'balance';
   tokenStd: 'ERC20' | 'ERC721' | 'ERC1155';
-  contractAddr: string;
+  contractAddr: string[];
   amount: number;
 };
 
