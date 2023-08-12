@@ -12,6 +12,9 @@ import * as ListMembersModel from '@/models/ListMembers';
 import * as JoinQueueModel from '@/models/joinQueue';
 import * as z from 'zod';
 
+import { DelegateCash } from 'delegatecash';
+import { balanceValid } from '@/types/Validate';
+
 // export const runtime = 'edge';
 
 const resBuilder = (msg: string, status: number = 200) => {
@@ -53,6 +56,8 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
 
     const communityInfo = community?.find((c) => c.list === twitterListId);
 
+    const dc = new DelegateCash();
+
     if (!communityInfo) return resBuilder('List not found', 404);
 
     // console.log('communityInfo', communityInfo);
@@ -65,8 +70,34 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
     if (member) return resBuilder('You are already in the list', 400);
 
     let tokenId = undefined;
+
     for (let conditions of communityInfo.conditions) {
-      const valid = await conditionsValidator(conditions, account.address);
+      let valid: balanceValid = { pass: false };
+
+      valid = await conditionsValidator(conditions, account.address);
+
+      if (!valid.pass) {
+        const wallets = await dc.getDelegationsByDelegate(account.address);
+        const validations = await Promise.all(
+          wallets.map(async (wallet) => {
+            const walletValid = await conditionsValidator(
+              conditions,
+              wallet.vault
+            );
+            return walletValid;
+          })
+        );
+
+        // Find the first validation that passed
+        const passedValidation = validations.find(
+          (validation) => validation.pass
+        );
+
+        // Update the valid object based on the passed validation, if found
+        if (passedValidation) {
+          valid = passedValidation;
+        }
+      }
 
       if (!valid.pass) {
         return resBuilder('You are not eligible for this list', 400);

@@ -17,21 +17,26 @@ const balanceValidator = async (
   try {
     switch (conditions.tokenStd) {
       case 'ERC20':
-        const balance = await alchemy.core.getTokenBalances(address, [
-          conditions.contractAddr,
-        ]);
+        const balance = await alchemy.core.getTokenBalances(
+          address,
+          conditions.contractAddr
+        );
         const hexBal = balance.tokenBalances[0].tokenBalance; // hex string
         const decBal = formatEther(fromHex(`0x${hexBal?.slice(2)}`, 'bigint')); // decimal string
         return { pass: Number(decBal) >= conditions.amount };
       case 'ERC721':
         const nftBalance = await alchemy.nft.getNftsForOwner(address, {
-          contractAddresses: [conditions.contractAddr],
+          contractAddresses: conditions.contractAddr,
         });
         const tokenBal = nftBalance.totalCount;
 
+        const tokenId = nftBalance.ownedNfts.find(
+          (nft) => nft.tokenId !== undefined && nft.tokenId !== null
+        )?.tokenId;
+
         return {
           pass: tokenBal >= conditions.amount,
-          tokenId: nftBalance.ownedNfts[0].tokenId,
+          tokenId: tokenId,
         };
       case 'ERC1155':
         //not supported yet

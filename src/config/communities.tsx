@@ -15,7 +15,7 @@ export const communities: Community[] = [
       {
         type: 'balance',
         tokenStd: 'ERC721',
-        contractAddr: '0xfa3c785b3f9e6140a9d058976d85bbb9bdd704b0',
+        contractAddr: ['0xfa3c785b3f9e6140a9d058976d85bbb9bdd704b0'],
         amount: 1,
       },
     ],
@@ -34,10 +34,10 @@ export const communities: Community[] = [
       {
         id: '0n1forcesdcc2023',
         title: '0N1 Force SDCC 2023',
-        hashtags: ['#SDCC2023'],
+        hashtags: [],
         date: {
-          from: '2023-07-01',
-          to: '2023-07-09',
+          from: '2023-07-20',
+          to: '2023-07-23',
         },
       },
     ],
@@ -46,22 +46,8 @@ export const communities: Community[] = [
       {
         type: 'balance',
         tokenStd: 'ERC721',
-        contractAddr: '0x3bf2922f4520a8ba0c2efc3d2a1539678dad5e9d',
+        contractAddr: ['0x3bf2922f4520a8ba0c2efc3d2a1539678dad5e9d'],
         amount: 1,
-      },
-      {
-        type: 'trait',
-        operator: 'and',
-        traits: [
-          {
-            trait_type: 'WEAR',
-            value: 'Thermal Hoodie',
-          },
-        ],
-      },
-      {
-        type: 'hold_duration',
-        timestamp: 1689257169,
       },
     ],
   },
