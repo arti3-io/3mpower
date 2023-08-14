@@ -19,7 +19,7 @@ export const scapper = inngest.createFunction(
       const twitterClient = new TwitterApi(env.TWITTER_APP_OAUTH);
 
       const { tweets: data, meta } = await twitterClient.v2.listTweets(listID, {
-        max_results: 25,
+        max_results: env.TWEETS_MAX,
         expansions: ['referenced_tweets.id.author_id', 'referenced_tweets.id'],
         'tweet.fields': [
           'id',

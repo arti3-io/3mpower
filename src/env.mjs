@@ -17,6 +17,7 @@ export const env = createEnv({
     TWITTER_APP_OAUTH: z.string().min(1),
     RATE_LIMIT_COUNT: z.string().min(1),
     QUEUE_LIMIT: z.coerce.number().int().default(5),
+    TWEETS_MAX: z.coerce.number().int().default(100),
   },
   client: {
     NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID: z.string().min(1),
